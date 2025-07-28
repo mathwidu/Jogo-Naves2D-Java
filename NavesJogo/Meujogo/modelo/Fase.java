@@ -67,7 +67,9 @@ public class Fase extends JPanel implements ActionListener{
 
 
 
-    public void paint( Graphics g){
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
         Graphics2D graficos = (Graphics2D) g;
         if (emJogo == true) {
         graficos.drawImage(fundo, 0, 0, null);
@@ -95,7 +97,6 @@ public class Fase extends JPanel implements ActionListener{
             ImageIcon fimJogo = new ImageIcon(getClass().getResource("/res/fimdejogo.png"));
             graficos.drawImage(fimJogo.getImage(), 0, 0, null);
         }
-        g.dispose();
     }
 
     @Override
