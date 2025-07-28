@@ -11,7 +11,8 @@ public class Explosion {
     private boolean visivel;
     private long startTime;
     private static final int DURATION = 500; // ms
-    private static final double SCALE = 0.4; // reduce explosion size
+    // scale factor for the explosion relative to the destroyed entity
+    private static final double SCALE = 0.15; // much smaller effect
 
     public Explosion(int x, int y, int largura, int altura) {
         int w = (int) (largura * SCALE);
