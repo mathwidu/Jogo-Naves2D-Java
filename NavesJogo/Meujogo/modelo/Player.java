@@ -29,22 +29,17 @@ public class Player implements ActionListener {
         tiros = new ArrayList<Tiro>();
 
         timer = new Timer(5000, this);
-        timer.start();
+        timer.setRepeats(false);
 
         load();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (isTurbo == true) {
-            turbo();
+        if (isTurbo) {
             isTurbo = false;
-        }
-        if (isTurbo == false) {
             load();
         }
-        
-        
     }
 
 
@@ -69,6 +64,7 @@ public class Player implements ActionListener {
         isTurbo = true;
         ImageIcon referencia = new ImageIcon(getClass().getResource("/res/naveturbo.png"));
         imagem = referencia.getImage();
+        timer.restart();
     }
 
     public Rectangle getBounds(){
