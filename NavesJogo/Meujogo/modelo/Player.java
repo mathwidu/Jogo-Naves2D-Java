@@ -162,6 +162,14 @@ public class Player implements ActionListener {
         return imagem;
     }
 
+    public int getLargura() {
+        return largura;
+    }
+
+    public int getAltura() {
+        return altura;
+    }
+
     public int getVida() {
         return vida;
     }

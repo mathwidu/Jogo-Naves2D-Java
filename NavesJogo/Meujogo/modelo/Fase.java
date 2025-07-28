@@ -199,7 +199,7 @@ public class Fase extends JPanel implements ActionListener{
         }
 
         for (Explosion ex : explosions) {
-            graficos.drawImage(ex.getImagem(), ex.getX(), ex.getY(), this);
+            graficos.drawImage(ex.getImagem(), ex.getX(), ex.getY(), ex.getLargura(), ex.getAltura(), this);
         }
 
         }
@@ -312,9 +312,9 @@ public class Fase extends JPanel implements ActionListener{
             formaEnemy1 = tempEnemy1.getBounds();
                 if(formaNava.intersects(formaEnemy1)){
                     tempEnemy1.setVisivel(false);
-                    explosions.add(new Explosion(tempEnemy1.getX(), tempEnemy1.getY()));
+                    explosions.add(new Explosion(tempEnemy1.getX(), tempEnemy1.getY(), tempEnemy1.getLargura(), tempEnemy1.getAltura()));
                     player.setVida(player.getVida() - 1);
-                    explosions.add(new Explosion(player.getX(), player.getY()));
+                    explosions.add(new Explosion(player.getX(), player.getY(), player.getLargura(), player.getAltura()));
                     if(player.getVida() <= 0){
                         player.setVisivel(false);
                         emJogo = false;
@@ -328,9 +328,9 @@ public class Fase extends JPanel implements ActionListener{
             formaEnemy2 = tempEnemy2.getBounds();
             if(formaNava.intersects(formaEnemy2)){
                 tempEnemy2.setVisivel(false);
-                explosions.add(new Explosion(tempEnemy2.getX(), tempEnemy2.getY()));
+                explosions.add(new Explosion(tempEnemy2.getX(), tempEnemy2.getY(), tempEnemy2.getLargura(), tempEnemy2.getAltura()));
                 player.setVida(player.getVida() - 1);
-                explosions.add(new Explosion(player.getX(), player.getY()));
+                explosions.add(new Explosion(player.getX(), player.getY(), player.getLargura(), player.getAltura()));
                 if(player.getVida() <= 0){
                     player.setVisivel(false);
                     emJogo = false;
@@ -343,7 +343,7 @@ public class Fase extends JPanel implements ActionListener{
             formaBoss = b.getBounds();
             if(formaNava.intersects(formaBoss)){
                 player.setVida(player.getVida() - 2);
-                explosions.add(new Explosion(player.getX(), player.getY()));
+                explosions.add(new Explosion(player.getX(), player.getY(), player.getLargura(), player.getAltura()));
                 if(player.getVida() <= 0){
                     player.setVisivel(false);
                     emJogo = false;
@@ -355,7 +355,7 @@ public class Fase extends JPanel implements ActionListener{
                 if(formaNava.intersects(formaTiroInimigo)){
                     t.setVisivel(false);
                     player.setVida(player.getVida() - 1);
-                    explosions.add(new Explosion(player.getX(), player.getY()));
+                    explosions.add(new Explosion(player.getX(), player.getY(), player.getLargura(), player.getAltura()));
                     if(player.getVida() <= 0){
                         player.setVisivel(false);
                         emJogo = false;
@@ -377,7 +377,7 @@ public class Fase extends JPanel implements ActionListener{
                     tempTiro.setVisivel(false);
                     if(tempEnemy1.getVida() <= 0){
                         tempEnemy1.setVisivel(false);
-                        explosions.add(new Explosion(tempEnemy1.getX(), tempEnemy1.getY()));
+                        explosions.add(new Explosion(tempEnemy1.getX(), tempEnemy1.getY(), tempEnemy1.getLargura(), tempEnemy1.getAltura()));
                         score += 10;
                     }
                 }
@@ -391,7 +391,7 @@ public class Fase extends JPanel implements ActionListener{
                     tempTiro.setVisivel(false);
                     if(tempEnemy2.getVida() <= 0){
                         tempEnemy2.setVisivel(false);
-                        explosions.add(new Explosion(tempEnemy2.getX(), tempEnemy2.getY()));
+                        explosions.add(new Explosion(tempEnemy2.getX(), tempEnemy2.getY(), tempEnemy2.getLargura(), tempEnemy2.getAltura()));
                         score += 20;
                     }
                 }
@@ -405,7 +405,7 @@ public class Fase extends JPanel implements ActionListener{
                     tempTiro.setVisivel(false);
                     if(b.getVida() <= 0){
                         b.setVisivel(false);
-                        explosions.add(new Explosion(b.getX(), b.getY()));
+                        explosions.add(new Explosion(b.getX(), b.getY(), b.getLargura(), b.getAltura()));
                         score += 100;
                     }
                 }
