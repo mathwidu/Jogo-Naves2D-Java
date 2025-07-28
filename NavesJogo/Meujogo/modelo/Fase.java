@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import Meujogo.GameOverPanel;
@@ -132,38 +133,40 @@ public class Fase extends JPanel implements ActionListener{
             timer.setDelay(5);
         }
 
-        for(int p = 0; p < stars.size(); p++){
-            Stars on = stars.get(p);
-                if(on.isVisivel()){
-                    on.update();
-                } else {
-                    stars.remove(p);
-                }
+        for (Iterator<Stars> it = stars.iterator(); it.hasNext();) {
+            Stars on = it.next();
+            if (on.isVisivel()) {
+                on.update();
+            } else {
+                it.remove();
+            }
         }
 
         List<Tiro> tiros = player.getTiros();
-        for(int i = 0; i < tiros.size(); i++){
-            Tiro m = tiros.get(i);
-            if(m.isVisivel()){
+        for (Iterator<Tiro> it = tiros.iterator(); it.hasNext();) {
+            Tiro m = it.next();
+            if (m.isVisivel()) {
                 m.update();
-            } else{
-                tiros.remove(i);
+            } else {
+                it.remove();
             }
         }
 
-        for(int o = 0; o < enemy1.size(); o++){
-            Enemy1 in = enemy1.get(o);
-            if(in.isVisivel()){
+        List<Enemy1> novos = new ArrayList<>();
+        for (Iterator<Enemy1> it = enemy1.iterator(); it.hasNext();) {
+            Enemy1 in = it.next();
+            if (in.isVisivel()) {
                 in.update();
-            } else{
-                enemy1.remove(o);
-                if(Math.random() < 0.5){
-                    int x = SCREEN_WIDTH + (int)(Math.random() * 8000);
-                    int y = (int)(Math.random() * 650 + 30);
-                    enemy1.add(new Enemy1(x, y));
+            } else {
+                it.remove();
+                if (Math.random() < 0.5) {
+                    int x = SCREEN_WIDTH + (int) (Math.random() * 8000);
+                    int y = (int) (Math.random() * 650 + 30);
+                    novos.add(new Enemy1(x, y));
                 }
             }
         }
+        enemy1.addAll(novos);
 
         checarColisoes();
 
