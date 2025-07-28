@@ -11,15 +11,18 @@ public class Explosion {
     private boolean visivel;
     private long startTime;
     private static final int DURATION = 500; // ms
+    private static final double SCALE = 0.4; // reduce explosion size
 
     public Explosion(int x, int y, int largura, int altura) {
-        this.x = x;
-        this.y = y;
-        this.largura = largura;
-        this.altura = altura;
+        int w = (int) (largura * SCALE);
+        int h = (int) (altura * SCALE);
+        this.x = x + (largura - w) / 2;
+        this.y = y + (altura - h) / 2;
+        this.largura = w;
+        this.altura = h;
         visivel = true;
         ImageIcon referencia = new ImageIcon(getClass().getResource("/res/Efeitos/explosion.gif"));
-        imagem = referencia.getImage().getScaledInstance(largura, altura, Image.SCALE_DEFAULT);
+        imagem = referencia.getImage().getScaledInstance(w, h, Image.SCALE_DEFAULT);
         startTime = System.currentTimeMillis();
     }
 
