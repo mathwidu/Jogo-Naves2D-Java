@@ -34,5 +34,6 @@ interface.)
 - **Arrow keys** or **WASD** – Move the spaceship
 - **Space** – Shoot
 - **T** – Activate turbo speed for a short time
+- Click **Reiniciar** when the game ends to start over
 
 Enjoy blasting enemy ships!
