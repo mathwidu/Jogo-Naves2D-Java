@@ -13,6 +13,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import Meujogo.GameOverPanel;
+import Meujogo.modelo.Boss;
+import Meujogo.modelo.Enemy2;
+import Meujogo.modelo.TiroInimigo;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -26,9 +29,15 @@ public class Fase extends JPanel implements ActionListener{
     private Player player;
     private Timer timer;
     private List<Enemy1> enemy1;
+    private List<Enemy2> enemy2;
+    private List<Boss> bosses;
+    private Image[] bossLife;
     private List<Stars> stars;
     private boolean emJogo;
     private GameOverPanel gameOverPanel;
+    private int score;
+    private long startTime;
+    private int dificuldade;
 
     private void reiniciarJogo(){
         if (player != null) {
@@ -36,8 +45,13 @@ public class Fase extends JPanel implements ActionListener{
         }
         player = new Player();
         inicializaInimigos();
+        enemy2.clear();
+        bosses.clear();
         inicializaEstrelas();
         emJogo = true;
+        score = 0;
+        startTime = System.currentTimeMillis();
+        dificuldade = 0;
         requestFocusInWindow();
         if (gameOverPanel != null) {
             gameOverPanel.setVisible(false);
@@ -56,6 +70,18 @@ public class Fase extends JPanel implements ActionListener{
         ImageIcon referencia = new ImageIcon(getClass().getResource("/res/Background.png"));
         fundo = referencia.getImage();
         player = new Player();
+        enemy2 = new ArrayList<Enemy2>();
+        bosses = new ArrayList<Boss>();
+        bossLife = new Image[6];
+        bossLife[0] = new ImageIcon(getClass().getResource("/res/Paineis/VidaBoss.png")).getImage();
+        bossLife[1] = new ImageIcon(getClass().getResource("/res/Paineis/VidaBoss1Hit.png")).getImage();
+        bossLife[2] = new ImageIcon(getClass().getResource("/res/Paineis/VidaBoss2Hit.png")).getImage();
+        bossLife[3] = new ImageIcon(getClass().getResource("/res/Paineis/VidaBoss3Hit.png")).getImage();
+        bossLife[4] = new ImageIcon(getClass().getResource("/res/Paineis/VidaBoss4Hit.png")).getImage();
+        bossLife[5] = new ImageIcon(getClass().getResource("/res/Paineis/VidaBoss5Hit.png")).getImage();
+        score = 0;
+        startTime = System.currentTimeMillis();
+        dificuldade = 0;
 
         addKeyListener(new TecladoAdapter());
 
@@ -80,6 +106,17 @@ public class Fase extends JPanel implements ActionListener{
             int x = (int)(Math.random() * 8000+1024);
             int y = (int)(Math.random() * 650+30);
             enemy1.add(new Enemy1(x, y));
+        }
+    }
+
+    public void inicializaEnemy2(){
+        if(enemy2.isEmpty()){
+            int coords [] = new int[10];
+            for(int i=0;i<coords.length;i++){
+                int x = SCREEN_WIDTH + (int)(Math.random()*5000);
+                int y = (int)(Math.random()*650+30);
+                enemy2.add(new Enemy2(x,y));
+            }
         }
     }
 
@@ -111,6 +148,9 @@ public class Fase extends JPanel implements ActionListener{
         graficos.drawImage(player.getImagem(), player.getX(), player.getY(), this);
         graficos.setColor(Color.WHITE);
         graficos.drawString("Vida: " + player.getVida(), player.getX(), player.getY() - 10);
+        long tempo = (System.currentTimeMillis() - startTime) / 1000;
+        graficos.drawString("Tempo: " + tempo + "s", 10, 20);
+        graficos.drawString("Pontos: " + score, 10, 40);
 
         List<Tiro> tiros = player.getTiros();
 
@@ -132,6 +172,28 @@ public class Fase extends JPanel implements ActionListener{
             graficos.setColor(Color.WHITE);
         }
 
+        for(int o = 0; o < enemy2.size(); o++){
+            Enemy2 in = enemy2.get(o);
+            graficos.drawImage(in.getImagem(), in.getX(), in.getY(), this);
+            int barWidth = 30;
+            int barHeight = 5;
+            int lifeWidth = (int)((in.getVida() / (float)Enemy2.getVidaInicial()) * barWidth);
+            graficos.setColor(Color.RED);
+            graficos.fillRect(in.getX(), in.getY() - 7, barWidth, barHeight);
+            graficos.setColor(Color.GREEN);
+            graficos.fillRect(in.getX(), in.getY() - 7, lifeWidth, barHeight);
+            graficos.setColor(Color.WHITE);
+        }
+
+        for(Boss b : bosses){
+            graficos.drawImage(b.getImagem(), b.getX(), b.getY(), this);
+            int idx = (int)((Boss.getVidaInicial() - b.getVida()) * (bossLife.length - 1) / (float)Boss.getVidaInicial());
+            graficos.drawImage(bossLife[idx], b.getX(), b.getY() - 20, this);
+            for(TiroInimigo t : b.getTiros()){
+                graficos.drawImage(t.getImagem(), t.getX(), t.getY(), this);
+            }
+        }
+
         }
     }
 
@@ -142,6 +204,17 @@ public class Fase extends JPanel implements ActionListener{
             timer.setDelay(2);
         } else {
             timer.setDelay(5);
+        }
+
+        long tempo = (System.currentTimeMillis() - startTime) / 1000;
+        if (tempo / 20 > dificuldade) {
+            dificuldade++;
+            if (dificuldade >= 1) {
+                inicializaEnemy2();
+            }
+            if (dificuldade % 3 == 0) {
+                bosses.add(new Boss(SCREEN_WIDTH, 100));
+            }
         }
 
         for (Iterator<Stars> it = stars.iterator(); it.hasNext();) {
@@ -179,6 +252,31 @@ public class Fase extends JPanel implements ActionListener{
         }
         enemy1.addAll(novos);
 
+        List<Enemy2> novos2 = new ArrayList<>();
+        for (Iterator<Enemy2> it = enemy2.iterator(); it.hasNext();) {
+            Enemy2 in = it.next();
+            if (in.isVisivel()) {
+                in.update();
+            } else {
+                it.remove();
+                if (Math.random() < 0.5) {
+                    int x = SCREEN_WIDTH + (int) (Math.random() * 8000);
+                    int y = (int) (Math.random() * 650 + 30);
+                    novos2.add(new Enemy2(x, y));
+                }
+            }
+        }
+        enemy2.addAll(novos2);
+
+        for (Iterator<Boss> it = bosses.iterator(); it.hasNext();) {
+            Boss b = it.next();
+            if (b.isVisivel()) {
+                b.update();
+            } else {
+                it.remove();
+            }
+        }
+
         checarColisoes();
 
         repaint();
@@ -187,7 +285,10 @@ public class Fase extends JPanel implements ActionListener{
     public void checarColisoes() {
         Rectangle formaNava = player.getBounds();
         Rectangle formaEnemy1;
+        Rectangle formaEnemy2;
+        Rectangle formaBoss;
         Rectangle formaTiro;
+        Rectangle formaTiroInimigo;
 
         for(int j = 0; j < enemy1.size(); j++){
             Enemy1 tempEnemy1 = enemy1.get(j);
@@ -203,6 +304,44 @@ public class Fase extends JPanel implements ActionListener{
                 }
         }
 
+        for(int j = 0; j < enemy2.size(); j++){
+            Enemy2 tempEnemy2 = enemy2.get(j);
+            formaEnemy2 = tempEnemy2.getBounds();
+            if(formaNava.intersects(formaEnemy2)){
+                tempEnemy2.setVisivel(false);
+                player.setVida(player.getVida() - 1);
+                if(player.getVida() <= 0){
+                    player.setVisivel(false);
+                    emJogo = false;
+                    gameOverPanel.setVisible(true);
+                }
+            }
+        }
+
+        for(Boss b : bosses){
+            formaBoss = b.getBounds();
+            if(formaNava.intersects(formaBoss)){
+                player.setVida(player.getVida() - 2);
+                if(player.getVida() <= 0){
+                    player.setVisivel(false);
+                    emJogo = false;
+                    gameOverPanel.setVisible(true);
+                }
+            }
+            for(TiroInimigo t : b.getTiros()){
+                formaTiroInimigo = t.getBounds();
+                if(formaNava.intersects(formaTiroInimigo)){
+                    t.setVisivel(false);
+                    player.setVida(player.getVida() - 1);
+                    if(player.getVida() <= 0){
+                        player.setVisivel(false);
+                        emJogo = false;
+                        gameOverPanel.setVisible(true);
+                    }
+                }
+            }
+        }
+
         List<Tiro> tiros = player.getTiros();
         for(int p = 0; p < tiros.size(); p++){
             Tiro tempTiro = tiros.get(p);
@@ -215,6 +354,33 @@ public class Fase extends JPanel implements ActionListener{
                     tempTiro.setVisivel(false);
                     if(tempEnemy1.getVida() <= 0){
                         tempEnemy1.setVisivel(false);
+                        score += 10;
+                    }
+                }
+            }
+
+            for (int m = 0; m < enemy2.size(); m++){
+                Enemy2 tempEnemy2 = enemy2.get(m);
+                formaEnemy2 = tempEnemy2.getBounds();
+                if(formaTiro.intersects(formaEnemy2)){
+                    tempEnemy2.setVida(tempEnemy2.getVida() - 1);
+                    tempTiro.setVisivel(false);
+                    if(tempEnemy2.getVida() <= 0){
+                        tempEnemy2.setVisivel(false);
+                        score += 20;
+                    }
+                }
+            }
+
+            for (int m = 0; m < bosses.size(); m++){
+                Boss b = bosses.get(m);
+                formaBoss = b.getBounds();
+                if(formaTiro.intersects(formaBoss)){
+                    b.damage(1);
+                    tempTiro.setVisivel(false);
+                    if(b.getVida() <= 0){
+                        b.setVisivel(false);
+                        score += 100;
                     }
                 }
             }
