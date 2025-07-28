@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -108,6 +109,8 @@ public class Fase extends JPanel implements ActionListener{
         }
 
         graficos.drawImage(player.getImagem(), player.getX(), player.getY(), this);
+        graficos.setColor(Color.WHITE);
+        graficos.drawString("Vida: " + player.getVida(), player.getX(), player.getY() - 10);
 
         List<Tiro> tiros = player.getTiros();
 
@@ -182,10 +185,13 @@ public class Fase extends JPanel implements ActionListener{
             Enemy1 tempEnemy1 = enemy1.get(j);
             formaEnemy1 = tempEnemy1.getBounds();
                 if(formaNava.intersects(formaEnemy1)){
-                    player.setVisivel(false);
                     tempEnemy1.setVisivel(false);
-                    emJogo = false;
-                    gameOverPanel.setVisible(true);
+                    player.setVida(player.getVida() - 1);
+                    if(player.getVida() <= 0){
+                        player.setVisivel(false);
+                        emJogo = false;
+                        gameOverPanel.setVisible(true);
+                    }
                 }
         }
 
