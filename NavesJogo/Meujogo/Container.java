@@ -33,6 +33,13 @@ public class Container extends JFrame {
         fase.requestFocusInWindow();
     }
 
+    public void showSettings() {
+        getContentPane().removeAll();
+        add(new SettingsPanel(this));
+        revalidate();
+        repaint();
+    }
+
 
 
     public static void main(String[] args) {

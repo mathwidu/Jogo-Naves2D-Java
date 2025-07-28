@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Meujogo.modelo.Fase;
@@ -41,7 +40,7 @@ public class MainMenu extends JPanel {
         configuracoes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(container, "Configura\u00e7\u00f5es n\u00e3o dispon\u00edveis");
+                container.showSettings();
             }
         });
 
