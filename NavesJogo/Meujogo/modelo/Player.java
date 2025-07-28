@@ -47,7 +47,17 @@ public class Player implements ActionListener {
 
 
     public void load(){
-        ImageIcon referencia = new ImageIcon(getClass().getResource("/res/spaceship2.png"));
+        String caminho;
+        if (isTurbo) {
+            caminho = "/res/naveturbo.png";
+        } else if (vida <= 1) {
+            caminho = "/res/Player Nave/spaceship2Hit.png";
+        } else if (vida == 2) {
+            caminho = "/res/Player Nave/spaceship2Hitmed.png";
+        } else {
+            caminho = "/res/spaceship2.png";
+        }
+        ImageIcon referencia = new ImageIcon(getClass().getResource(caminho));
         imagem = referencia.getImage();
         altura = imagem.getHeight(null);
         largura = imagem.getWidth(null);
@@ -158,6 +168,9 @@ public class Player implements ActionListener {
 
     public void setVida(int vida) {
         this.vida = vida;
+        if (!isTurbo) {
+            load();
+        }
     }
 
     public List<Tiro> getTiros() {
