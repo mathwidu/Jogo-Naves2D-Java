@@ -1,20 +1,39 @@
 package Meujogo;
 import Meujogo.modelo.Fase;
-import javax.swing.JFrame; 
+import javax.swing.JFrame;
 
 public class Container extends JFrame {
+    private Fase fase;
 
     public Container() {
-        add(new Fase());
         setTitle("meu jogo");
         setSize(Fase.SCREEN_WIDTH, Fase.SCREEN_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         this.setResizable(false);
+
+        showMenu();
+
         setVisible(true);
     }
 
-    
+    public void showMenu() {
+        getContentPane().removeAll();
+        add(new MainMenu(this));
+        revalidate();
+        repaint();
+    }
+
+    public void startGame() {
+        getContentPane().removeAll();
+        fase = new Fase();
+        add(fase);
+        revalidate();
+        repaint();
+        fase.requestFocusInWindow();
+    }
+
+
 
     public static void main(String[] args) {
         new Container();
