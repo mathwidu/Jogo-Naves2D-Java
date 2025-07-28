@@ -133,6 +133,11 @@ public class Fase extends JPanel implements ActionListener{
                 in.update();
             } else{
                 enemy1.remove(o);
+                if(Math.random() < 0.5){
+                    int x = SCREEN_WIDTH + (int)(Math.random() * 8000);
+                    int y = (int)(Math.random() * 650 + 30);
+                    enemy1.add(new Enemy1(x, y));
+                }
             }
         }
 
