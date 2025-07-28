@@ -27,7 +27,7 @@ public class Fase extends JPanel implements ActionListener{
         setFocusable(true);
         setDoubleBuffered(true);
         
-        ImageIcon referencia = new ImageIcon("res\\Background.png");
+        ImageIcon referencia = new ImageIcon(getClass().getResource("/res/Background.png"));
         fundo = referencia.getImage();
         player = new Player();
         player.load();
@@ -94,7 +94,7 @@ public class Fase extends JPanel implements ActionListener{
         }
 
         } else{
-            ImageIcon fimJogo = new ImageIcon("res\\fimdejogo.png");
+            ImageIcon fimJogo = new ImageIcon(getClass().getResource("/res/fimdejogo.png"));
             graficos.drawImage(fimJogo.getImage(), 0, 0, null);
         }
         g.dispose();

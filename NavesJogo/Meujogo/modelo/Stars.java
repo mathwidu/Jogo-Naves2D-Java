@@ -20,7 +20,7 @@ public class Stars {
     }
 
     public void load(){
-        ImageIcon referencia = new ImageIcon("res\\Star1.png");
+        ImageIcon referencia = new ImageIcon(getClass().getResource("/res/Star1.png"));
         imagem = referencia.getImage();
 
         this.largura = imagem.getWidth(null);

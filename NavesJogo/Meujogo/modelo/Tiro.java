@@ -21,7 +21,7 @@ public class Tiro {
     }
 
     public void load(){
-        ImageIcon referencia = new ImageIcon("res\\TiroSimples.png");
+        ImageIcon referencia = new ImageIcon(getClass().getResource("/res/TiroSimples.png"));
         imagem = referencia.getImage();
 
         this.largura = imagem.getWidth(null);

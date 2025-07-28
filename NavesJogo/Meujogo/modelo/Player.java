@@ -48,7 +48,7 @@ public class Player implements ActionListener {
 
 
     public void load(){
-        ImageIcon referencia = new ImageIcon("res\\spaceship2.png");
+        ImageIcon referencia = new ImageIcon(getClass().getResource("/res/spaceship2.png"));
         imagem = referencia.getImage();
         altura = imagem.getHeight(null);
         largura = imagem.getWidth(null);
@@ -65,7 +65,7 @@ public class Player implements ActionListener {
 
     public void turbo(){
         isTurbo = true;
-        ImageIcon referencia = new ImageIcon("res\\naveturbo.png");
+        ImageIcon referencia = new ImageIcon(getClass().getResource("/res/naveturbo.png"));
         imagem = referencia.getImage();
     }
 
