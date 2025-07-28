@@ -101,6 +101,8 @@ public class Fase extends JPanel implements ActionListener{
         player.update();
         if (player.isTurbo() == true) {
             timer.setDelay(2);
+        } else {
+            timer.setDelay(5);
         }
 
         for(int p = 0; p < stars.size(); p++){
