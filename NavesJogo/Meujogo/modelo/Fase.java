@@ -25,6 +25,14 @@ public class Fase extends JPanel implements ActionListener{
     private List<Stars> stars;
     private boolean emJogo;
 
+    private void reiniciarJogo(){
+        player = new Player();
+        inicializaInimigos();
+        inicializaEstrelas();
+        emJogo = true;
+        requestFocusInWindow();
+    }
+
     public Fase(){
         setFocusable(true);
         setDoubleBuffered(true);
@@ -179,6 +187,10 @@ public class Fase extends JPanel implements ActionListener{
     private class TecladoAdapter extends KeyAdapter{
         @Override
         public void keyPressed(KeyEvent e){
+            if(!emJogo && e.getKeyCode() == KeyEvent.VK_R){
+                reiniciarJogo();
+                return;
+            }
             player.keyPressed(e);
         }
 
