@@ -2,49 +2,52 @@ package Meujogo.modelo;
 
 import java.awt.Image;
 import java.awt.Rectangle;
-
 import javax.swing.ImageIcon;
 
-public class Enemy2 {
+public class Enemy4 {
     private Image imagem;
+    private Image imagemNormal;
     private Image imagemHitmed;
     private Image imagemHit;
     private int x, y;
     private int largura, altura;
     private boolean isVisivel;
     private int vida;
+    private int dy;
 
-    private static final int VELOCIDADE = 6;
-    private static final int VIDA_INICIAL = 2;
-    private int dy = 1;
+    private static final int VELOCIDADE = 7;
+    private static final int VIDA_INICIAL = 4;
 
-    public Enemy2(int x, int y) {
+    public Enemy4(int x, int y) {
         this.x = x;
         this.y = y;
+        this.dy = 0;
         isVisivel = true;
         vida = VIDA_INICIAL;
-
         load();
     }
 
     public void load() {
-        ImageIcon referencia = new ImageIcon(getClass().getResource("/res/Inimigos/enemy2.png"));
-        imagem = referencia.getImage();
-        imagemHitmed = imagem; // no dedicated images
-        imagemHit = imagem;
-
+        imagemNormal = new ImageIcon(getClass().getResource("/res/Inimigos/enemy4.png")).getImage();
+        imagemHitmed = new ImageIcon(getClass().getResource("/res/Inimigos/enemy4Hitmed.png")).getImage();
+        imagemHit = new ImageIcon(getClass().getResource("/res/Inimigos/enemy4Hit.png")).getImage();
+        imagem = imagemNormal;
         this.largura = imagem.getWidth(null);
         this.altura = imagem.getHeight(null);
     }
 
     public void update() {
-        this.x -= VELOCIDADE;
-        this.y += dy;
-        if (y < 0 || y + altura > Fase.SCREEN_HEIGHT) {
-            dy = -dy;
+        x -= VELOCIDADE;
+        if (Math.random() < 0.05) {
+            dy = (int) (Math.random() * 5 - 2);
         }
-
-        if (this.x + largura < 0) {
+        y += dy;
+        if (y < 0) {
+            y = 0;
+        } else if (y + altura > Fase.SCREEN_HEIGHT) {
+            y = Fase.SCREEN_HEIGHT - altura;
+        }
+        if (x + largura < 0) {
             isVisivel = false;
         }
     }
@@ -65,12 +68,8 @@ public class Enemy2 {
         return isVisivel;
     }
 
-    public void setVisivel(boolean isVisivel) {
-        this.isVisivel = isVisivel;
-    }
-
-    public static int getVelocidade() {
-        return VELOCIDADE;
+    public void setVisivel(boolean visivel) {
+        this.isVisivel = visivel;
     }
 
     public Image getImagem() {
@@ -89,8 +88,10 @@ public class Enemy2 {
     private void updateImagem() {
         if (vida <= 1) {
             imagem = imagemHit;
-        } else if (vida < VIDA_INICIAL) {
+        } else if (vida <= VIDA_INICIAL - 2) {
             imagem = imagemHitmed;
+        } else {
+            imagem = imagemNormal;
         }
     }
 

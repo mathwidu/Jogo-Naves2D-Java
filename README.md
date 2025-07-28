@@ -35,5 +35,6 @@ interface.)
 - **Space** – Shoot
 - **T** – Activate turbo speed for a short time
 - Click **Reiniciar** when the game ends to start over
+- Face new enemy types with unique behaviors and damage states
 
 Enjoy blasting enemy ships!

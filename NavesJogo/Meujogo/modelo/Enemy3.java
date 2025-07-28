@@ -5,46 +5,43 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
-public class Enemy2 {
+public class Enemy3 {
     private Image imagem;
+    private Image imagemNormal;
     private Image imagemHitmed;
     private Image imagemHit;
     private int x, y;
     private int largura, altura;
     private boolean isVisivel;
     private int vida;
+    private int step;
 
-    private static final int VELOCIDADE = 6;
-    private static final int VIDA_INICIAL = 2;
-    private int dy = 1;
+    private static final int VELOCIDADE = 4;
+    private static final int VIDA_INICIAL = 3;
 
-    public Enemy2(int x, int y) {
+    public Enemy3(int x, int y) {
         this.x = x;
         this.y = y;
         isVisivel = true;
         vida = VIDA_INICIAL;
-
+        step = 0;
         load();
     }
 
     public void load() {
-        ImageIcon referencia = new ImageIcon(getClass().getResource("/res/Inimigos/enemy2.png"));
-        imagem = referencia.getImage();
-        imagemHitmed = imagem; // no dedicated images
-        imagemHit = imagem;
-
+        imagemNormal = new ImageIcon(getClass().getResource("/res/Inimigos/enemy3.png")).getImage();
+        imagemHitmed = new ImageIcon(getClass().getResource("/res/Inimigos/enemy3Hitmed.png")).getImage();
+        imagemHit = new ImageIcon(getClass().getResource("/res/Inimigos/enemy3Hit.png")).getImage();
+        imagem = imagemNormal;
         this.largura = imagem.getWidth(null);
         this.altura = imagem.getHeight(null);
     }
 
     public void update() {
-        this.x -= VELOCIDADE;
-        this.y += dy;
-        if (y < 0 || y + altura > Fase.SCREEN_HEIGHT) {
-            dy = -dy;
-        }
-
-        if (this.x + largura < 0) {
+        x -= VELOCIDADE;
+        y += (int) (Math.sin(Math.toRadians(step)) * 3);
+        step += 10;
+        if (x + largura < 0) {
             isVisivel = false;
         }
     }
@@ -65,12 +62,8 @@ public class Enemy2 {
         return isVisivel;
     }
 
-    public void setVisivel(boolean isVisivel) {
-        this.isVisivel = isVisivel;
-    }
-
-    public static int getVelocidade() {
-        return VELOCIDADE;
+    public void setVisivel(boolean visivel) {
+        this.isVisivel = visivel;
     }
 
     public Image getImagem() {
@@ -89,8 +82,10 @@ public class Enemy2 {
     private void updateImagem() {
         if (vida <= 1) {
             imagem = imagemHit;
-        } else if (vida < VIDA_INICIAL) {
+        } else if (vida <= VIDA_INICIAL - 1) {
             imagem = imagemHitmed;
+        } else {
+            imagem = imagemNormal;
         }
     }
 
