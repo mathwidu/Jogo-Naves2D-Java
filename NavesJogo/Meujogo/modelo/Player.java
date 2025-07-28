@@ -17,6 +17,7 @@ public class Player implements ActionListener {
     private Image imagem;
     private int altura, largura;
     private boolean isVisivel, isTurbo;
+    private int vida;
     private List <Tiro> tiros;
     private Timer timer;
 
@@ -25,6 +26,7 @@ public class Player implements ActionListener {
         this.y =100;
         isVisivel = true;
         isTurbo = false;
+        vida = 3;
 
         tiros = new ArrayList<Tiro>();
 
@@ -148,6 +150,14 @@ public class Player implements ActionListener {
     }
     public Image getImagem() {
         return imagem;
+    }
+
+    public int getVida() {
+        return vida;
+    }
+
+    public void setVida(int vida) {
+        this.vida = vida;
     }
 
     public List<Tiro> getTiros() {
