@@ -122,6 +122,14 @@ public class Fase extends JPanel implements ActionListener{
         for(int o = 0; o < enemy1.size(); o++){
             Enemy1 in = enemy1.get(o);
             graficos.drawImage(in.getImagem(), in.getX(), in.getY(), this);
+            int barWidth = 30;
+            int barHeight = 5;
+            int lifeWidth = (int)((in.getVida() / (float)Enemy1.getVidaInicial()) * barWidth);
+            graficos.setColor(Color.RED);
+            graficos.fillRect(in.getX(), in.getY() - 7, barWidth, barHeight);
+            graficos.setColor(Color.GREEN);
+            graficos.fillRect(in.getX(), in.getY() - 7, lifeWidth, barHeight);
+            graficos.setColor(Color.WHITE);
         }
 
         }
@@ -203,11 +211,14 @@ public class Fase extends JPanel implements ActionListener{
                 Enemy1 tempEnemy1 = enemy1.get(m);
                 formaEnemy1 = tempEnemy1.getBounds();
                 if(formaTiro.intersects(formaEnemy1)){
-                    tempEnemy1.setVisivel(false);
+                    tempEnemy1.setVida(tempEnemy1.getVida() - 1);
                     tempTiro.setVisivel(false);
+                    if(tempEnemy1.getVida() <= 0){
+                        tempEnemy1.setVisivel(false);
+                    }
                 }
             }
-        } 
+        }
     }
 
     private class TecladoAdapter extends KeyAdapter{
