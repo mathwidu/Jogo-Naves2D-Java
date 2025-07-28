@@ -25,7 +25,7 @@ public class Enemy2 {
     }
 
     public void load() {
-        ImageIcon referencia = new ImageIcon(getClass().getResource("/res/enemy2.png"));
+        ImageIcon referencia = new ImageIcon(getClass().getResource("/res/Inimigos/enemy2.png"));
         imagem = referencia.getImage();
 
         this.largura = imagem.getWidth(null);
