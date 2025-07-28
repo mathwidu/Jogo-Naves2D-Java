@@ -72,6 +72,14 @@ public class Enemy2 {
         return vida;
     }
 
+    public int getLargura() {
+        return largura;
+    }
+
+    public int getAltura() {
+        return altura;
+    }
+
     public void setVida(int vida) {
         this.vida = vida;
     }
