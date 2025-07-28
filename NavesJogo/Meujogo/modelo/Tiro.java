@@ -11,7 +11,7 @@ public class Tiro {
     private int largura, altura;
     private boolean isVisivel;
     
-    private static final int LARGURA = 938;
+    private static final int LARGURA = Fase.SCREEN_WIDTH;
     private static final int VELOCIDADE = 4;
 
     public Tiro (int x, int y){

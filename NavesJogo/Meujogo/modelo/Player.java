@@ -54,6 +54,18 @@ public class Player implements ActionListener {
     public void update(){
         x += dx;
         y += dy;
+
+        if (x < 0) {
+            x = 0;
+        } else if (x + largura > Fase.SCREEN_WIDTH) {
+            x = Fase.SCREEN_WIDTH - largura;
+        }
+
+        if (y < 0) {
+            y = 0;
+        } else if (y + altura > Fase.SCREEN_HEIGHT) {
+            y = Fase.SCREEN_HEIGHT - altura;
+        }
     }
 
     public void tiroSimples(){

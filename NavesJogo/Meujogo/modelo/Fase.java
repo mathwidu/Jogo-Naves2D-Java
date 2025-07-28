@@ -16,6 +16,8 @@ import javax.swing.Timer;
 
 
 public class Fase extends JPanel implements ActionListener{
+    public static final int SCREEN_WIDTH = 1024;
+    public static final int SCREEN_HEIGHT = 728;
     private Image fundo;
     private Player player;
     private Timer timer;
@@ -56,8 +58,8 @@ public class Fase extends JPanel implements ActionListener{
         int cordenadas [] = new int [100];
         stars = new ArrayList<Stars>();
         for(int i =0; i< cordenadas.length; i++){
-            int x = (int)(Math.random() * 1024 + 0);
-            int y = (int)(Math.random() * 768 + 0);
+            int x = (int)(Math.random() * SCREEN_WIDTH);
+            int y = (int)(Math.random() * SCREEN_HEIGHT);
             stars.add(new Stars(x, y));
         }
     }
