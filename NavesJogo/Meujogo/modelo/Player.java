@@ -30,6 +30,8 @@ public class Player implements ActionListener {
 
         timer = new Timer(5000, this);
         timer.start();
+
+        load();
     }
 
     @Override

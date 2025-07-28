@@ -18,6 +18,8 @@ public class Enemy1 {
         this.x = x;
         this.y = y;
         isVisivel = true;
+
+        load();
     }
 
     public void load(){

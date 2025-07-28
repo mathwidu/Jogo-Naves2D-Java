@@ -30,7 +30,6 @@ public class Fase extends JPanel implements ActionListener{
         ImageIcon referencia = new ImageIcon(getClass().getResource("/res/Background.png"));
         fundo = referencia.getImage();
         player = new Player();
-        player.load();
 
         addKeyListener(new TecladoAdapter());
 
@@ -73,9 +72,8 @@ public class Fase extends JPanel implements ActionListener{
 
         for(int p = 0; p < stars.size(); p++){
             Stars q = stars.get(p);
-            q.load();
             graficos.drawImage(q.getImagem(), q.getX(), q.getY(), this);
-        }    
+        }
 
         graficos.drawImage(player.getImagem(), player.getX(), player.getY(), this);
 
@@ -83,13 +81,11 @@ public class Fase extends JPanel implements ActionListener{
 
         for(int i = 0; i < tiros.size(); i++){
             Tiro m = tiros.get(i);
-            m.load();
             graficos.drawImage(m.getImagem(), m.getX(), m.getY(), this);
         }
 
         for(int o = 0; o < enemy1.size(); o++){
             Enemy1 in = enemy1.get(o);
-            in.load();
             graficos.drawImage(in.getImagem(), in.getX(), in.getY(), this);
         }
 
