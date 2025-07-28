@@ -32,9 +32,10 @@ public class Enemy1 {
     
     public void update(){
         this.x -= VELOCIDADE;
-       /*  if(this.x > LARGURA){
+
+        if(this.x + largura < 0){
             isVisivel = false;
-        }*/
+        }
     }
 
     public Rectangle getBounds(){
