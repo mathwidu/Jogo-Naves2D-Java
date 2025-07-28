@@ -29,6 +29,9 @@ public class Fase extends JPanel implements ActionListener{
     private GameOverPanel gameOverPanel;
 
     private void reiniciarJogo(){
+        if (player != null) {
+            player.stopTurboTimer();
+        }
         player = new Player();
         inicializaInimigos();
         inicializaEstrelas();

@@ -158,6 +158,10 @@ public class Player implements ActionListener {
         return isTurbo;
     }
 
-    
-    
+    public void stopTurboTimer() {
+        timer.stop();
+    }
+
+
+
 }
