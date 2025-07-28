@@ -12,7 +12,8 @@ public class Explosion {
     private long startTime;
     private static final int DURATION = 500; // ms
     // scale factor for the explosion relative to the destroyed entity
-    private static final double SCALE = 0.15; // much smaller effect
+    // 50% larger than before for better visibility
+    private static final double SCALE = 0.225;
 
     public Explosion(int x, int y, int largura, int altura) {
         int w = (int) (largura * SCALE);
