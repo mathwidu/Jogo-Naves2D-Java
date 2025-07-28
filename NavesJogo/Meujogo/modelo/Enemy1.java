@@ -10,14 +10,17 @@ public class Enemy1 {
     private int x, y;
     private int largura, altura;
     private boolean isVisivel;
+    private int vida;
     
     //private static final int LARGURA = 938;
     private static final int VELOCIDADE = 4;
+    private static final int VIDA_INICIAL = 3;
 
     public Enemy1 (int x, int y){
         this.x = x;
         this.y = y;
         isVisivel = true;
+        vida = VIDA_INICIAL;
 
         load();
     }
@@ -66,5 +69,17 @@ public class Enemy1 {
         return imagem;
     }
 
-    
+    public int getVida() {
+        return vida;
+    }
+
+    public void setVida(int vida) {
+        this.vida = vida;
+    }
+
+    public static int getVidaInicial() {
+        return VIDA_INICIAL;
+    }
+
+
 }
