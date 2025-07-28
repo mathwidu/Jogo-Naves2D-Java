@@ -10,6 +10,8 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import Meujogo.GameOverPanel;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -24,6 +26,7 @@ public class Fase extends JPanel implements ActionListener{
     private List<Enemy1> enemy1;
     private List<Stars> stars;
     private boolean emJogo;
+    private GameOverPanel gameOverPanel;
 
     private void reiniciarJogo(){
         player = new Player();
@@ -31,6 +34,14 @@ public class Fase extends JPanel implements ActionListener{
         inicializaEstrelas();
         emJogo = true;
         requestFocusInWindow();
+        if (gameOverPanel != null) {
+            gameOverPanel.setVisible(false);
+        }
+    }
+
+    // Called by GameOverPanel to restart the game
+    public void reiniciarJogoPublic() {
+        reiniciarJogo();
     }
 
     public Fase(){
@@ -49,6 +60,11 @@ public class Fase extends JPanel implements ActionListener{
         inicializaInimigos();
         inicializaEstrelas();
         emJogo = true;
+
+        setLayout(null);
+        gameOverPanel = new GameOverPanel(this);
+        gameOverPanel.setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        add(gameOverPanel);
     }
 
     public void inicializaInimigos(){
@@ -101,9 +117,6 @@ public class Fase extends JPanel implements ActionListener{
             graficos.drawImage(in.getImagem(), in.getX(), in.getY(), this);
         }
 
-        } else{
-            ImageIcon fimJogo = new ImageIcon(getClass().getResource("/res/fimdejogo.png"));
-            graficos.drawImage(fimJogo.getImage(), 0, 0, null);
         }
     }
 
@@ -166,6 +179,7 @@ public class Fase extends JPanel implements ActionListener{
                     player.setVisivel(false);
                     tempEnemy1.setVisivel(false);
                     emJogo = false;
+                    gameOverPanel.setVisible(true);
                 }
         }
 
@@ -187,10 +201,6 @@ public class Fase extends JPanel implements ActionListener{
     private class TecladoAdapter extends KeyAdapter{
         @Override
         public void keyPressed(KeyEvent e){
-            if(!emJogo && e.getKeyCode() == KeyEvent.VK_R){
-                reiniciarJogo();
-                return;
-            }
             player.keyPressed(e);
         }
 
